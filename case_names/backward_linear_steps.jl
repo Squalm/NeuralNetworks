@@ -13,7 +13,7 @@ function linear_backward(δZ, cache)
     δb = sum(δZ, dims = 2) / m
     δA_prev = (W') * δZ
 
-    @assert (size(δA_prev) == size(A_prev))
+    @assert (size(δA_prev)[1] == size(A_prev)[1])
     @assert (size(δW) == size(W))
     @assert (size(δb) == size(b))
 
@@ -24,7 +24,7 @@ end # function
 Unpack the linear activated caches (cache) and compute their derivates from the applied activation function.
 """
 function linear_activation_backwards(δA, cache; activation_function="relu")
-    @assert activation_function ∈ ("sigmoiod", "relu")
+    @assert activation_function ∈ ("sigmoid", "relu")
 
     linear_cache, cache_activation = cache
 

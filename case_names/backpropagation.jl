@@ -15,12 +15,12 @@ function back_propagate_model_weights(Ŷ, Y, master_cache)
     current_cache = master_cache[L]
 
     # backpropagate on the layer preceeding the output layer
-    ∇[string("δW_", (L))], ∇[string("δb_", (L))], ∇[string(δA_), (L-1)] = linear_activation_backwards(δŶ, current_cache, activation_function = "sigmoid")
+    ∇[string("δW_", (L))], ∇[string("δb_", (L))], ∇[string("δA_", (L-1))] = linear_activation_backwards(δŶ, current_cache, activation_function = "sigmoid")
     
     # go backward in the layers and compute the partial derivates of each component
     for l = reverse(0:L-2)
         current_cache = master_cache[l+1]
-        ∇[string("δW_", (l+1))], ∇[string("δb_", (l+1))], ∇[string("δA_", (l))] = linear_activation_backward(∇[string("δA_", (l+1))], current_cache, activation_function="relu")
+        ∇[string("δW_", (l+1))], ∇[string("δb_", (l+1))], ∇[string("δA_", (l))] = linear_activation_backwards(∇[string("δA_", (l+1))], current_cache, activation_function="relu")
     end # for
 
     return ∇

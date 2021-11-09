@@ -9,6 +9,6 @@ function calculate_cost(Ŷ, Y)
     Ŷ_new = [max(i, epsilon) for i in Ŷ]
     Ŷ_new = [min(i, epsilon) for i in Ŷ_new]
 
-    cost = -sum( Y .* log.(Ŷ_new) + (1 .- Y) .* log.(1 .- Ŷ_new) ) /m
+    cost = -sum(Y .* log10.(Ŷ_new) + (ones(size(Y)) - Y) .* log10.(ones(size(Ŷ_new)) - Ŷ_new)) / m
     return cost
 end # function
