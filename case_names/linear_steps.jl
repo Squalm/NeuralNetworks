@@ -5,7 +5,6 @@ Make a linear forward calc.
 """
 function linear_forward(A, W, b)
     # Make a linear forward and return the inputs as cache
-    println(string(typeof(W), " ", size(W)))
     println(string(typeof(A), " ", size(A)))
     Z = (W * A) .+ b
     cache = (A, W, b)

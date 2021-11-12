@@ -35,7 +35,7 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vecto
         end # for
 
         if verbose
-            println("Epoch -> $i, Cost -> $cost, Accuracy -> $acc")
+            println("Epoch -> $i, Most recent Cost -> $cost, Most recent Accuracy -> $acc")
         end # if
 
     end # for

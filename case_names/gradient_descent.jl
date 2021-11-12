@@ -9,6 +9,6 @@ function update_model_weights(parameters, ∇, η)
         parameters[string("W_", (l+1))] -= η .* ∇[string("δW_", (l+1))]
         parameters[string("b_", (l+1))] -= η .* ∇[string("δb_", (l+1))]
     end # for
-    
+
     return parameters
 end # function

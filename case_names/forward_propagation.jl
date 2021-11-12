@@ -6,7 +6,7 @@ Iterate through the layers in the net to get a prediction.
 function forward_propagate_model_weights(DMatrix, parameters)
     master_cache = []
     A = DMatrix
-    L = Int(length(parameters) / 2)
+    L = trunc(Int, length(parameters) / 2)
 
     # Forawrd propagate until the last layer
     for l = 1:(L-1)

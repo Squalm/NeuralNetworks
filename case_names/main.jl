@@ -52,6 +52,8 @@ for s in binary_split
             end # for
         end # if
 
+        println(size(DMatrix[end]))
+
     end # for
 
 end # for
@@ -61,7 +63,7 @@ end # for
 input_dim = (length(chars)) * input_chars
 hidden_dim = (length(chars)+1) * 5
 output_dim = (length(chars)+1)
-dims = [hidden_dim for i in 1:30]
+dims = [hidden_dim for i in 1:5]
 prepend!(dims, input_dim)
 append!(dims, output_dim)
 
