@@ -18,7 +18,7 @@ end # do
 
 #println(raw[1:20])
 
-chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ -_[]()0123456789.,:/&'\";"
+chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ -[]()0123456789"
 binary_split = [[zeros((length(chars) + 1)) for i = 1:length(x)+1] for x in raw]
 for s = 1:length(binary_split)
 
@@ -36,7 +36,7 @@ Y = []
 
 for s in binary_split
     
-    for c = 0:length(s) -1
+    for c = 3:length(s) -1
 
         push!(DMatrix, [])
         push!(Y, [s[c + 1]])
@@ -48,11 +48,9 @@ for s in binary_split
         end # if
         if c != 0
             for i = (max(c - input_chars + 1, 1)):c
-                append!( DMatrix[end], s[c] )
+                append!( DMatrix[end], s[c][1:end-1] )
             end # for
         end # if
-
-        println(size(DMatrix[end]))
 
     end # for
 
@@ -65,6 +63,7 @@ hidden_dim = (length(chars)+1) * 5
 output_dim = (length(chars)+1)
 dims = [hidden_dim for i in 1:5]
 prepend!(dims, input_dim)
+append!(dims, output_dim)
 append!(dims, output_dim)
 
 println(string("Dimensions: ", dims))
