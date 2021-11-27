@@ -94,6 +94,25 @@ Next we need to do the really interesting bit: actually learning in...
 
 ### `backpropagation.jl`
 
+We can think about this quite clearly if we imagine a neural network with only one neuron per layer. Essentially we need to take the value we got, and modify our NN to produce a value that's slightly closer to our desired value. Lets take a neuron, $n$, it has a weight, $w$, and bias, $b$. It received an input ($A$) 0, and we want it to output 1. We can the output we got, $Y_n$, and the output we wanted $\hat Y_n$.
+
+$$ \hat Y_n = wA + b $$
+
+It's easy to see how we could optimise one neuron to create the result we want. Substitute for $A$ and our desired $Y_n$. e.g.
+
+$$ 1 = 0w + b $$
+
+Picking random values for w and letting b equal 0 initially (as we do in our NN) currently gives us:
+
+$$ 0*0.74... + 0 = 0 $$
+
+We can clearly see that $w$ does not affect our result in this case, so we can modify $b$ only:
+
+$$ b = b + (Y_n - b) \eta $$
+Where $\eta$ is the learning rate.
+$$ b = 0 + (1 - 0) * 0.01 = 0.01 $$
+So we've modified our value of $b$ to give a slightly better answer than before. We could let $\eta = 1$ then we would correctly guess the right answer for this situation! However, this is called over-optimisation and doesn't actually solve the problem we want it to. Our NN would always be completely overhauled each time we backpropagate to get the ideal result but we would never converge on something which can produce and accurate result from data it hasn't seen before (or even from other data in our dataset, if $\eta = 1$). Even in less extreme cases, over-optimisation is still a big issue. If your NN learns for too long it may learn to fit perfectly to your data and unlearn how to solve the problem which means it would produce less accurate results when it sees data it's never seen before! (This is also why it's important to keep some data for unsupervised tests after supervised training.)
+
 The partial derivatives of each of the variables with respect to $Y$ can be calculated as follows:
 
 $$ \frac {\delta \hat Y} {\delta Y} = - \frac Y {\hat Y} + \frac {1 - Y}{1 - \hat Y} $$
