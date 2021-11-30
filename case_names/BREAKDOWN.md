@@ -58,9 +58,13 @@ The next thing to do in `train.jl` is to start running our NN! First we propagat
 `forward_propagate_model_weights(DMatrix, params)` loops through each layer of the NN and gets the values:
 
 For layer $l$
+
 $$ Z_{l,n} = W_{l,n} * A_{l-1} + b $$
+
 So for each neuron in each layer (except the input layer) we multiply each value in the previous layer by some number (specific to each neuron), and then add a bias (find this in `linear_steps.jl`). We're not quite done there for each layer. We actually need to apply an activation function so our data is remotely usable. Most of the time we only need to use a reLU function which simply returns a 0 if the value is negative and otherwise returns the value. However, in the final layer we use a sigmoid activation function to obtain a value always between 0 and 1.
+
 $$ A_{l,n} = \frac 1 {1 + e^{-Z_{l,n}}} $$
+
 The greater Z is the closer this will be to 1, and the smaller Z the closer to 0. Usefully it can never fall outside of those bounds (find activation functions in `activations_functions.jl`).
 
 Now that we've iterated through our NN, we need to calculate the cost of our results in...
@@ -77,6 +81,7 @@ The derivation for this is quite complicated but a very readable explanation can
 Our implementation of this looks slightly different:
 
 $$ C = \frac {- \sum ( Y * \log_2 \hat Y + (1 - Y) * \log_2 (1 - \hat Y)) } m $$
+
 Where $m$ is the size of $Y$. This actually gives us the same thing because or actual values ($Y$) are binary. When the actual value is 0 that element of the sum can be simplified to:
 
 $$ 1 * \log_2 (1 - \hat Y) $$
@@ -104,8 +109,11 @@ $$ 0*0.74... + 0 = 0 $$
 We can clearly see that $w$ does not affect our result in this case, so we can modify $b$ only:
 
 $$ b = b + (Y_n - b) \eta $$
+
 Where $\eta$ is the learning rate.
+
 $$ b = 0 + (1 - 0) * 0.01 = 0.01 $$
+
 So we've modified our value of $b$ to give a slightly better answer than before. We could let $\eta = 1$ then we would correctly guess the right answer for this situation! However, this is called over-optimisation and doesn't actually solve the problem we want it to. Our NN would always be completely overhauled each time we backpropagate to get the ideal result but we would never converge on something which can produce and accurate result from data it hasn't seen before (or even from other data in our dataset, if $\eta = 1$). Even in less extreme cases, over-optimisation is still a big issue. If your NN learns for too long it may learn to fit perfectly to your data and unlearn how to solve the problem which means it would produce less accurate results when it sees data it's never seen before! (This is also why it's important to keep some data for unsupervised tests after supervised training.)
 
 The partial derivatives of each of the variables with respect to $Y$ can be calculated as follows:
