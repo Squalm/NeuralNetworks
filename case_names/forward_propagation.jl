@@ -12,10 +12,9 @@ function forward_propagate_model_weights(DMatrix, parameters)
     for l = 1:(L-1)
         A_prev = A
         A, cache = linear_forward_activate(A_prev, parameters[string("W_", (l))], parameters[string("b_", (l))], activation_function = "relu")
-        if l == L-1 && findmax(A)[1] != 0
-            A = A ./ findmax(A)[1] * 10
+        if l == L-1
+            println(string(l, " : ", A[1:5]))
         end # if
-        println(string(l, " : ", A[1:5]))
         push!(master_cache, cache)
     end # for
 

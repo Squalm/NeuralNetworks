@@ -5,13 +5,12 @@ using UnicodePlots
 # get the data
 
 # characters: [^0-9a-zA-Z&:,./()[]_-] THIS IS OLD
-chars = Regex("[^0-9a-zA-Z&:,./()[]_-]")
 raw = []
 open("case_names/data.txt") do f
 
     line = 0
     while !eof(f)
-        push!(raw, replace(readline(f), chars => ""))
+        push!(raw, readline(f))
     end # while
 
 end # do
@@ -36,7 +35,7 @@ Y = []
 
 for s in binary_split
     
-    for c = 3:length(s) -1
+    for c = 2:2# length(s) -1
 
         push!(DMatrix, [])
         push!(Y, [s[c + 1]])
@@ -68,4 +67,4 @@ append!(dims, output_dim)
 
 println(string("Dimensions: ", dims))
 
-nn_results = train_network(dims, DMatrix, Y, epochs=10)
+nn_results = train_network(dims, DMatrix, Y, epochs=10, η = 0.1)

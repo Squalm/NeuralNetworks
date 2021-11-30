@@ -15,7 +15,7 @@ function linear_backward(δZ, cache)
 
     @assert (size(δA_prev)[1] == size(A_prev)[1])
     @assert (size(δW) == size(W))
-    @assert (size(δb) == size(b))
+    @assert (size(δb)[1] == size(b)[1])
 
     return δW, δb, δA_prev
 end # function

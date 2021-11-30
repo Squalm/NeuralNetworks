@@ -11,7 +11,7 @@ function back_propagate_model_weights(Ŷ, Y, master_cache)
     Y = reshape(Y, size(Ŷ))
 
     # Partial derivate of the output layer
-    δŶ = ( - (Y ./ Ŷ) .+ ((1 .- Y) ./ (1 .- Ŷ)) )
+    δŶ = - (Y / Ŷ) + ((1 .- Y) / (1 .- Ŷ))
     current_cache = master_cache[L]
 
     # backpropagate on the layer preceeding the output layer

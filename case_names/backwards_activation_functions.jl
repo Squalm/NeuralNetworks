@@ -1,20 +1,19 @@
 include("activation_functions.jl")
 
 """
-Derivate of Sigmoid
+Derivative of Sigmoid
 """
 function sigmoid_backwards(δA, activated_cache)
     s = sigmoid(activated_cache).A
-    δZ = δA .* s .* (1 .- s)
+    δZ = [δA[i] * s[i] * (1 - s[i]) for i in 1:length(s)]
 
-    @assert (size(δZ) == size(activated_cache))
-
+    #δZ = [log(abs( 1 / x - 1 )) for x in δA]
     return δZ
 end # function
 
 """
-Derivate of ReLU
+Derivative of ReLU
 """
 function relu_backwards(δA, activated_cache)
-    return δA .* (activated_cache .> 0)
+    return [δA[i] * (activated_cache[i] > 0) for i in 1:length(δA)]
 end # function

@@ -1,13 +1,13 @@
 """
 Update the parameters of the model using the gardients (∇) and the learning rate (η).
 """
-function update_model_weights(parameters, ∇, η)
+function update_model_weights(parameters, ∇, η::Float)
     L = trunc(Int, length(parameters) / 2)
 
     # update the parameters (weights and biases) for all the layers
-    for l = 0:L-1
-        parameters[string("W_", (l+1))] -= η .* ∇[string("δW_", (l+1))]
-        parameters[string("b_", (l+1))] -= η .* ∇[string("δb_", (l+1))]
+    for l = 1:L
+        parameters[string("W_", l)] -= η .* ∇[string("δW_", l)]
+        parameters[string("b_", l)] -= η .* ∇[string("δb_", l)]
     end # for
 
     return parameters
