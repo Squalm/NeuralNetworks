@@ -8,7 +8,7 @@ include("gradient_descent.jl")
 """
 Train the network using the desired architecture that best possible matches the training inputs (DMatrix) and their corresponding outputs(Y) over some number of iterations (epochs) and a learning rate (η).
 """
-function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vector{Any}; η = 0.001, epochs = 500, seed = 1337, verbose = true)
+function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vector{Any}; η = 0.001, epochs = 500, seed = 202112011227, verbose = true)
 
     costs = []
     iters = []

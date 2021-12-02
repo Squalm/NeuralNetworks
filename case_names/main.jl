@@ -35,7 +35,7 @@ Y = []
 
 for s in binary_split
     
-    for c = 2:2# length(s) -1
+    for c = 0:length(s) -1
 
         push!(DMatrix, [])
         push!(Y, [s[c + 1]])
@@ -67,4 +67,4 @@ append!(dims, output_dim)
 
 println(string("Dimensions: ", dims))
 
-nn_results = train_network(dims, DMatrix, Y, epochs=10, η = 0.1)
+nn_results = train_network(dims, DMatrix, Y, epochs=10, η = 0.001)

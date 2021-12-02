@@ -2,7 +2,7 @@
 Sigmoid activation function
 """
 function sigmoid(Z)
-    A = 1 ./ (1 .+ exp.(.-Z))
+    A = max.(min.(1 ./ (1 .+ exp.(.-Z)), 1-eps(1.0)), eps(1.0))
     return (A = A, Z = Z)
 end # function
 

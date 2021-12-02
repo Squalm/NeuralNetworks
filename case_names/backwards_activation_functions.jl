@@ -5,6 +5,7 @@ Derivative of Sigmoid
 """
 function sigmoid_backwards(δA, activated_cache)
     s = sigmoid(activated_cache).A
+    s = [max(min(x, 1-(eps(1.0))), eps(1.0)) for x in s]
     δZ = [δA[i] * s[i] * (1 - s[i]) for i in 1:length(s)]
 
     #δZ = [log(abs( 1 / x - 1 )) for x in δA]
