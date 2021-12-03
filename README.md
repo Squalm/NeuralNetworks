@@ -1,4 +1,4 @@
-# RNNs
+# Neural Nets
 
 ## Case Names
 
