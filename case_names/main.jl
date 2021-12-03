@@ -28,7 +28,7 @@ for s = 1:length(binary_split)
 
 end # for
 
-input_chars = 15
+input_chars = 5
 # split the cases to serve as inputs for the RNN.
 DMatrix = []
 Y = []
@@ -58,7 +58,7 @@ end # for
 
 
 input_dim = (length(chars)) * input_chars
-hidden_dim = (length(chars)+1) * 5
+hidden_dim = (length(chars)+1) * 2
 output_dim = (length(chars)+1)
 dims = [hidden_dim for i in 1:5]
 prepend!(dims, input_dim)
@@ -67,4 +67,4 @@ append!(dims, output_dim)
 
 println(string("Dimensions: ", dims))
 
-nn_results = train_network(dims, DMatrix, Y, epochs=10, η = 0.001)
+nn_results = train_network(dims, DMatrix, Y, epochs=10, η = 0.1)
