@@ -10,11 +10,25 @@ function sigmoid_backwards(δA, activated_cache)
 
     #δZ = [log(abs( 1 / x - 1 )) for x in δA]
     return δZ
-end # function
+end # function 
 
 """
 Derivative of ReLU
 """
 function relu_backwards(δA, activated_cache)
     return [δA[i] * (activated_cache[i] > 0) for i in 1:length(δA)]
+end # function
+
+"""
+Derivative of Tanh
+"""
+function tanh_backwards(δA, activated_cache)
+    return [δA[i] * (1 - (tanh(activated_cache[i]))^2) for i in 1:length(δA)]
+end # function
+
+"""
+Derivative of Softmax
+"""
+function softmax_backwards(δA, activated_cache)
+    return δA * ( - exp.(activated_cache) .* sum(exp.(activated_cache)) )
 end # function

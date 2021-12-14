@@ -24,21 +24,29 @@ end # function
 Unpack the linear activated caches (cache) and compute their derivates from the applied activation function.
 """
 function linear_activation_backwards(δA, cache; activation_function="relu")
-    @assert activation_function ∈ ("sigmoid", "relu")
+    @assert activation_function ∈ ("sigmoid", "relu", "softmax", "tanh")
 
     linear_cache, cache_activation = cache
 
     if (activation_function == "relu")
 
         δZ = relu_backwards(δA, cache_activation)
-        δW, δb, δA_prev = linear_backward(δZ, linear_cache)
 
     elseif (activation_function == "sigmoid")
 
         δZ = sigmoid_backwards(δA, cache_activation)
-        δW, δb, δA_prev = linear_backward(δZ, linear_cache)
 
+    elseif (activation_function ==  "tanh")
+
+        δZ = tanh_backwards(δA, cache_activation)
+
+    elseif (activation_function == "softmax")
+
+        δZ = softmax_backwards(δA, cache_activation)
+        
     end # if
+
+    δW, δb, δA_prev = linear_backward(δZ, linear_cache)
 
     return δW, δb, δA_prev
 end # function

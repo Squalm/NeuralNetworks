@@ -60,11 +60,11 @@ end # for
 input_dim = (length(chars)) * input_chars
 hidden_dim = (length(chars)+1) * 2
 output_dim = (length(chars)+1)
-dims = [hidden_dim for i in 1:5]
+dims = [hidden_dim for i in 1:3]
 prepend!(dims, input_dim)
 append!(dims, output_dim)
 append!(dims, output_dim)
 
 println(string("Dimensions: ", dims))
 
-nn_results = train_network(dims, DMatrix, Y, epochs=10, η = 0.1)
+nn_results = train_network(dims, reverse(DMatrix), reverse(Y), epochs=10, η = 0.001)

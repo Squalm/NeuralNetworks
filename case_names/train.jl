@@ -32,9 +32,16 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vecto
             push!(costs, cost)
             push!(iters, i)
             push!(accuracy, acc)
+
+            if verbose
+                println("Cost: $cost, Accuracy: $acc")
+            end # if
+
         end # for
 
         if verbose
+            cost = costs[end]
+            acc = accuracy[end]
             println("Epoch -> $i, Most recent Cost -> $cost, Most recent Accuracy -> $acc")
         end # if
 
