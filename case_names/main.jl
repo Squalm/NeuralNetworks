@@ -17,7 +17,9 @@ end # do
 
 #println(raw[1:20])
 
-chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ -[]()0123456789"
+#chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ -[]()0123456789"
+chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ -"
+raw = uppercase.(raw)
 binary_split = [[zeros((length(chars) + 1)) for i = 1:length(x)+1] for x in raw]
 for s = 1:length(binary_split)
 
@@ -58,9 +60,9 @@ end # for
 
 
 input_dim = (length(chars)) * input_chars
-hidden_dim = (length(chars)+1) * 2
+hidden_dim = (length(chars)+1) * 5
 output_dim = (length(chars)+1)
-dims = [hidden_dim for i in 1:3]
+dims = [hidden_dim for i in 1:5]
 prepend!(dims, input_dim)
 append!(dims, output_dim)
 append!(dims, output_dim)
