@@ -17,15 +17,15 @@ end # function
 """
 Softmax Activation function
 """
-function softmax(Z)
-    A = max.(exp.(Z) ./ ( sum(exp.(Z)) ), eps(1.0))
+function softmax(Z::Array{BigFloat})
+    A = max.(exp.(Z) ./ ( sum(exp.(Z))), eps(1.0))
     return (A = A, Z = Z)
 end # function
 
 """
 Tanh Activation function
 """
-function tanhact(Z)
+function tanhact(Z::Array{BigFloat})
     A = min.(max.(tanh.(Z), -1.0+eps(1.0)), 1.0-eps(1.0))
     return (A = A, Z = Z)
 end # function

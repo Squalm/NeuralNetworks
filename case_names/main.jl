@@ -35,7 +35,7 @@ Y = []
 
 for s in binary_split
     
-    for c = 0:length(s) -1
+    for c = 2:length(s) -1
 
         push!(DMatrix, [])
         push!(Y, [s[c + 1]])

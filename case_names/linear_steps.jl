@@ -5,7 +5,7 @@ Make a linear forward calc.
 """
 function linear_forward(A, W, b)
     # Make a linear forward and return the inputs as cache
-    Z = (W * A) .+ b
+    Z = BigFloat.((W * A) .+ b)
     cache = (A, W, b)
 
     @assert size(Z) == (size(W, 1), size(A, 2))

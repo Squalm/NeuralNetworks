@@ -14,8 +14,7 @@ function forward_propagate_model_weights(DMatrix, parameters)
         A, cache = linear_forward_activate(A_prev, parameters[string("W_", (l))], parameters[string("b_", (l))], activation_function = "tanh")
         # Debugging println statements
         if l == L-1
-            println(string(l, " : ", A[1:5]))
-            println(parameters[string("W_", l)][1:5])
+            println(string(l, " : ", A[1:2]))
         end # if
         push!(master_cache, cache)
     end # for
@@ -24,7 +23,7 @@ function forward_propagate_model_weights(DMatrix, parameters)
     Ŷ, cache = linear_forward_activate(A, parameters[string("W_", (L))], parameters[string("b_", (L))], activation_function = "softmax")
     # Make sure the outputs are within bounds too
     # Debuggin println
-    println(string(L, " : ", Ŷ[1:5]))
+    println(string(L, " : ", Ŷ[1:2]))
     push!(master_cache, cache)
 
     return Ŷ, master_cache
