@@ -1,3 +1,5 @@
+using DataFrames, CSV
+
 include("initialise.jl")
 include("forward_propagation.jl")
 include("cost.jl")
@@ -13,9 +15,13 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vecto
     costs = []
     iters = []
     accuracy = []
+    yn = []
 
     # initialise
     params = initialise_model(layer_dims, seed)
+
+    # LOGGING
+    d = string(Dates.now())[1:13] * "-" * string(Dates.now())[15:16]
 
     # train
     for i = 1:epochs
@@ -32,9 +38,24 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vecto
             push!(costs, cost)
             push!(iters, i)
             push!(accuracy, acc)
+            if findmax(Y)[2] == findmax(Ŷ)[2]
+                push!(yn, true)
+            else
+                push!(yn, false)
+            end # if
 
             if verbose
                 println("Cost: $cost, Accuracy: $acc")
+            end # if
+
+            # LOGGING
+            if datum % 100 == 0 # only write every 100 characters
+                open("case_names/logs/$d LOG.csv", "w") do io
+                    CSV.write(io, DataFrame([iters, costs, accuracy, yn], :auto), header=["Iteration", "Cost", "Accuracy", "Correct"])
+                end # do
+                open("case_names/logs/$d PAR.csv", "w") do io
+                    CSV.write(io, DataFrame([collect(values(params))], :auto), header=collect(keys(params)))
+                end # do
             end # if
 
         end # for
