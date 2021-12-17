@@ -10,12 +10,14 @@ include("gradient_descent.jl")
 """
 Train the network using the desired architecture that best possible matches the training inputs (DMatrix) and their corresponding outputs(Y) over some number of iterations (epochs) and a learning rate (η).
 """
-function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vector{Any}; η = 0.001, epochs = 500, seed = 202112011227, verbose = true)
+function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vector{Any}, mapping::String; η = 0.001, epochs = 500, seed = 424367, verbose = true)
 
     costs = []
     iters = []
     accuracy = []
     yn = []
+    YvŶ = [[], []]
+    mapping *= "#"
 
     # initialise
     params = initialise_model(layer_dims, seed)
@@ -27,7 +29,6 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vecto
     for i = 1:epochs
 
         for datum in 1:length(DMatrix)
-            println(string("Datum: ", datum))
             Ŷ, caches = forward_propagate_model_weights(DMatrix[datum], params)
             cost = calculate_cost(Ŷ, Y[datum][1])
             acc = assess_accuracy(Ŷ, Y[datum][1])
@@ -38,20 +39,22 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vecto
             push!(costs, cost)
             push!(iters, i)
             push!(accuracy, acc)
-            if findmax(Y)[2] == findmax(Ŷ)[2]
+            if findmax(Y[datum][1])[2] == findmax(Ŷ)[2][1]
                 push!(yn, true)
             else
                 push!(yn, false)
             end # if
+            push!(YvŶ[1], mapping[findmax(Y[datum][1])[2]])
+            push!(YvŶ[2], mapping[findmax(Ŷ)[2][1]])
 
             if verbose
-                println("Cost: $cost, Accuracy: $acc")
+                println("Datum: $datum, Cost: $cost, Accuracy: $acc")
             end # if
 
             # LOGGING
             if datum % 100 == 0 # only write every 100 characters
                 open("case_names/logs/$d LOG.csv", "w") do io
-                    CSV.write(io, DataFrame([iters, costs, accuracy, yn], :auto), header=["Iteration", "Cost", "Accuracy", "Correct"])
+                    CSV.write(io, DataFrame([iters, costs, accuracy, yn, YvŶ[1], YvŶ[2]], :auto), header=["Iteration", "Cost", "Accuracy", "Correct", "Answer", "Guess"])
                 end # do
                 open("case_names/logs/$d PAR.csv", "w") do io
                     CSV.write(io, DataFrame([collect(values(params))], :auto), header=collect(keys(params)))

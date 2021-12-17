@@ -67,4 +67,4 @@ append!(dims, output_dim)
 
 println(string("Dimensions: ", dims))
 
-nn_results = train_network(dims, reverse(DMatrix), reverse(Y), epochs=10, η = 0.001)
+nn_results = train_network(dims, reverse(DMatrix), reverse(Y), chars, epochs=10, η = 0.001)
