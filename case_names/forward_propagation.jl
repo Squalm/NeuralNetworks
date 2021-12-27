@@ -22,8 +22,6 @@ function forward_propagate_model_weights(DMatrix, parameters)
     # For the final layer (outputs)
     Ŷ, cache = linear_forward_activate(A, parameters[string("W_", (L))], parameters[string("b_", (L))], activation_function = "softmax")
     # Make sure the outputs are within bounds too
-    # Debuggin println
-    #println(string(L, " : ", Ŷ[1:2]))
     push!(master_cache, cache)
 
     return Ŷ, master_cache

@@ -37,10 +37,10 @@ Y = []
 
 for s in binary_split
     
-    for c = 2:length(s) -1
+    for c = 1:length(s) -1
 
         push!(DMatrix, [])
-        push!(Y, [s[c + 1]])
+        push!(Y, s[c + 1])
 
         if c < input_chars
             for i = 1:(input_chars - c)
@@ -69,4 +69,4 @@ append!(dims, output_dim)
 
 println(string("Dimensions: ", dims))
 
-nn_results = train_network(dims, reverse(DMatrix), reverse(Y), chars, epochs=10, η = 0.001)
+nn_results = train_network(dims, reverse(DMatrix)[1:100], reverse(Y)[1:100], chars, epochs=20, η = 0.003)
