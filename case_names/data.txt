@@ -1,11 +1,10 @@
- Muhammed Saudagar -- D BOTTLE Trade
+Muhammed Saudagar -- D BOTTLE Trade
 D CAPSULE FORM --  Valerie Court
- Valetta Road --  
- -  --  Micheldever Road
- Moat Court --  Jolliffe Road
- Melton Avenue --  The Anchor
-- Norwood Road --  Regency Court
- Teignmouth Road --  Grange Road
+Valetta Road --  Micheldever Road
+Moat Court --  Jolliffe Road
+Melton Avenue --  The Anchor
+Norwood Road --  Regency Court
+Teignmouth Road --  Grange Road
 A v B -- A v B
 A v B -- A Local Authority v X
 A Local Authority v X -- AA  UKUT
