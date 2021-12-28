@@ -12,6 +12,9 @@ Train the network using the desired architecture that best possible matches the 
 """
 function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vector{Any}, mapping::String; η = 0.001, epochs = 500, seed = 424367)
 
+    # Scale η for amount of data
+    η = η / length(DMatrix)
+
     costs = [0.0 for x in 1:length(DMatrix) * epochs]
     iters = [trunc((x-1) / length(DMatrix))+1 for x in 1:length(DMatrix) * epochs]
     confidence = [0.0 for x in 1:length(DMatrix) * epochs]
