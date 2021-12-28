@@ -15,7 +15,7 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vecto
     costs = [0.0 for x in 1:length(DMatrix) * epochs]
     iters = [trunc((x-1) / length(DMatrix))+1 for x in 1:length(DMatrix) * epochs]
     confidence = [0.0 for x in 1:length(DMatrix) * epochs]
-    YvŶ = [[0.0 for x in 1:length(DMatrix) * epochs], [0.0 for x in 1:length(DMatrix) * epochs]]
+    YvŶ = [[' ' for x in 1:length(DMatrix) * epochs], [' ' for x in 1:length(DMatrix) * epochs]]
     mapping *= "#"
 
     # initialise
@@ -27,44 +27,42 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vecto
     # train
     for i = 1:epochs
 
-        println("Epoch $i")
-
         Ŷ = Any[[] for x in 1:length(DMatrix)]
         caches = [[] for x in 1:length(DMatrix)]
 
         iter = ProgressBar(1:length(DMatrix))
-        set_description(iter, "Forward Propagating")
+        set_description(iter, "Epoch $i 1/6 Forward Propagating")
 
         Threads.@threads for datum in iter
             Ŷ[datum], caches[datum] = forward_propagate_model_weights(DMatrix[datum], params)
         end # for
 
-        set_description(iter, "Calculating Costs")
+        set_description(iter, "Epoch $i 2/6 Calculating Costs")
 
         Threads.@threads for datum in iter
             costs[(i-1) * length(DMatrix) + datum] = calculate_cost(Ŷ[datum], Y[datum])
         end # for
 
-        set_description(iter, "Calculating Confidence")
+        set_description(iter, "Epoch $i 3/6 Calculating Confidence")
 
         Threads.@threads for datum in iter
             confidence[(i-1) * length(DMatrix) + datum] = assess_accuracy(Ŷ[datum], Y[datum])
         end # for
 
-        set_description(iter, "Calculating Gradients")
+        set_description(iter, "Epoch $i 4/6 Calculating Gradients")
 
         ∇ = Any[missing for x in 1:length(DMatrix)]
         Threads.@threads for datum in iter
             ∇[datum] = back_propagate_model_weights(Ŷ[datum], Y[datum], caches[datum])
         end # for
 
-        set_description(iter, "Updating Model Params")
+        set_description(iter, "Epoch $i 5/6 Updating Model Params")
 
         for datum in iter
             params = update_model_weights(params, ∇[datum], η)
         end # for
 
-        set_description(iter, "Logging calcs")
+        set_description(iter, "Epoch $i 6/6 Logging calcs")
 
         for datum in iter
             YvŶ[1][(i-1) * length(DMatrix) + datum] = mapping[findmax(Y[datum])[2]]
