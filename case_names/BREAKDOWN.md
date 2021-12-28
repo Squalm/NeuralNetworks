@@ -11,7 +11,7 @@ Here process the data in `data.txt` to be inputs into our neural net. It takes e
 Take for example:
 
 ```
-AG v Wilkinson -- Ahmad Ors
+AG v Wilkinson  --  Ahmad Ors
 ```
 
 First we make each character into the string into an array with one 1 showing the character so `A` would generate an array like
