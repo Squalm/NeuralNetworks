@@ -10,15 +10,12 @@ include("gradient_descent.jl")
 """
 Train the network using the desired architecture that best possible matches the training inputs (DMatrix) and their corresponding outputs(Y) over some number of iterations (epochs) and a learning rate (η).
 """
-function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vector{Any}, mapping::String; η = 0.001, epochs = 500, seed = 424367)
+function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Vector{Float64}}, Y::Vector{Vector{Float64}}, mapping::String; η = 0.001, epochs = 500, seed = 758907)
 
-    # Scale η for amount of data
-    η = η / length(DMatrix)
-
-    costs = [0.0 for x in 1:length(DMatrix) * epochs]
-    iters = [trunc((x-1) / length(DMatrix))+1 for x in 1:length(DMatrix) * epochs]
-    confidence = [0.0 for x in 1:length(DMatrix) * epochs]
-    YvŶ = [[' ' for x in 1:length(DMatrix) * epochs], [' ' for x in 1:length(DMatrix) * epochs]]
+    costs = BigFloat[BigFloat(0.0) for x in 1:length(DMatrix) * epochs]
+    iters = Int[trunc((x-1) / length(DMatrix))+1 for x in 1:length(DMatrix) * epochs]
+    confidence = BigFloat[BigFloat(0.0) for x in 1:length(DMatrix) * epochs]
+    YvŶ = Vector{Char}[Char[' ' for x in 1:length(DMatrix) * epochs], Char[' ' for x in 1:length(DMatrix) * epochs]]
     mapping *= "#"
 
     # initialise
@@ -59,12 +56,17 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Any}, Y::Vecto
             ∇[datum] = back_propagate_model_weights(Ŷ[datum], Y[datum], caches[datum])
         end # for
 
+        iter = ProgressBar(1:length(collect(keys(params))))
         set_description(iter, "Epoch $i 5/6 Updating Model Params")
+        ∇_avg = Dict()
 
-        for datum in iter
-            params = update_model_weights(params, ∇[datum], η)
+        for x in iter
+            ∇_avg[string("δ", collect(keys(params))[x])] = sum([δ[string("δ", collect(keys(params))[x])] for δ in ∇]) / length(∇)
         end # for
 
+        params = update_model_weights(params, ∇_avg, η)
+
+        iter = ProgressBar(1:length(DMatrix))
         set_description(iter, "Epoch $i 6/6 Logging calcs")
 
         for datum in iter
