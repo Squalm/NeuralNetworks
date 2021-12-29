@@ -3,7 +3,7 @@ using StableRNGs
 """
 Function to initialise the parameters of the desired network.
 """
-function initialise_model(layer_dims, seed)
+function initialise_model(layer_dims::Vector{Int}, seed::Any)
     params = Dict()
 
     for l = 2:length(layer_dims)

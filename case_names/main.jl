@@ -32,19 +32,19 @@ end # for
 
 input_chars = 5
 # split the cases to serve as inputs for the RNN.
-DMatrix = []
-Y = []
+DMatrix = Vector{Float64}[]
+Y = Vector{Float64}[]
 
 for s in binary_split
     
     for c = 1:length(s) -1
 
         push!(DMatrix, [])
-        push!(Y, s[c + 1])
+        push!(Y, s[c+1])
 
         if c < input_chars
             for i = 1:(input_chars - c)
-                append!( DMatrix[end], zeros((length(chars))) )
+                append!( DMatrix[end], zeros(length(chars)) )
             end # for
         end # if
         if c != 0
@@ -69,4 +69,4 @@ append!(dims, output_dim)
 
 println(string("Dimensions: ", dims))
 
-nn_results = train_network(dims, reverse(DMatrix)[1:1000], reverse(Y)[1:1000], chars, epochs=100, η = 0.003)
+nn_results = train_network(dims, reverse(DMatrix)[1:50], reverse(Y)[1:50], chars, epochs=100, η = 0.003)
