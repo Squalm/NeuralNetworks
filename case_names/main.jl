@@ -20,7 +20,7 @@ end # do
 #chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ -[]()0123456789"
 chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ -"
 raw = uppercase.(raw)
-binary_split = [[zeros((length(chars) + 1)) for i = 1:length(x)+1] for x in raw]
+binary_split = [[[0 #==1/(length(chars)*2)==# for _ in 1:(length(chars)+1)] for i = 1:length(x)+1] for x in raw]
 for s = 1:length(binary_split)
 
     for c = 1:length(raw[s])
@@ -30,7 +30,7 @@ for s = 1:length(binary_split)
 
 end # for
 
-input_chars = 5
+input_chars = 3
 # split the cases to serve as inputs for the RNN.
 DMatrix = Vector{Float64}[]
 Y = Vector{Float64}[]
@@ -60,13 +60,13 @@ end # for
 
 
 input_dim = (length(chars)) * input_chars
-hidden_dim = (length(chars)+1) * 5
+hidden_dim = (length(chars)+1) * 2
 output_dim = (length(chars)+1)
-dims = [hidden_dim for i in 1:5]
+dims = [hidden_dim for i in 1:3]
 prepend!(dims, input_dim)
-append!(dims, output_dim)
+
 append!(dims, output_dim)
 
 println(string("Dimensions: ", dims))
 
-nn_results = train_network(dims, reverse(DMatrix)[1:50], reverse(Y)[1:50], chars, epochs=100, η = 0.003)
+nn_results = train_network(dims, reverse(DMatrix)[1:500], reverse(Y)[1:500], chars, epochs=50, η = 0.001)

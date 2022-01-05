@@ -8,6 +8,11 @@ function calculate_cost(Ŷ, Y)
     # Deal with log(0)
     Ŷ_new = [min(i, epsilon) for i in [max(i, epsilon) for i in Ŷ]]
 
-    cost = -sum(Y .* log2.(Ŷ_new) + (ones(size(Y)) - Y) .* log2.(ones(size(Ŷ_new)) - Ŷ_new)) /m
+    #== NEED TO SET UP SO WORKS FOR MIN VALUE IN Y ==#
+
+    # using hardcoded 29 as number of characters
+    #cost = -sum(Y .* log2.(Ŷ_new) + ((1 + 2/29) .- Y) .* log2.((1 + 2/29) .- Ŷ_new)) /m
+    cost = -sum([ Y[i] == 1 ? log2(Ŷ_new[i]) : log2(abs(Ŷ_new[i] + 27/29)) for i in 1:length(Y)]) /m
+    #cost = -log2(Ŷ_new[findmax(Y)[2]])
     return cost
 end # function

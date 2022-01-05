@@ -1,7 +1,7 @@
 """
 Sigmoid Activation function
 """
-function sigmoid(Z)
+function sigmoid(Z::Array{BigFloat})
     A = max.(min.(1 ./ (1 .+ exp.(.-Z)), 1-eps(1.0)), eps(1.0))
     return (A = A, Z = Z)
 end # function
@@ -33,8 +33,10 @@ end # function
 """
 Swish Activation function
 """
-function swish(Z)
-    A = Z * sigmoid(Z).Z
+function swish(Z::Array{BigFloat})
+    #Z₁ = sigmoid(Z).A
+    #A = [Z[i] * Z₁[i] for i in 1:length(Z)]
+    A = Z * vec(sigmoid(Z).A)
     return (A = A, Z = Z)
 end # function
 

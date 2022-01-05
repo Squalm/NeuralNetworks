@@ -12,6 +12,7 @@ Train the network using the desired architecture that best possible matches the 
 """
 function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Vector{Float64}}, Y::Vector{Vector{Float64}}, mapping::String; η = 0.001, epochs = 500, seed = 758907)
 
+    η_first = η
     costs = BigFloat[BigFloat(0.0) for x in 1:length(DMatrix) * epochs]
     iters = Int[trunc((x-1) / length(DMatrix))+1 for x in 1:length(DMatrix) * epochs]
     confidence = BigFloat[BigFloat(0.0) for x in 1:length(DMatrix) * epochs]
@@ -27,6 +28,9 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Vector{Float64
     # train
     for i = 1:epochs
 
+        # modify η each iteration
+        #η = η_first * abs(cos(i * pi / 50))
+
         Ŷ = Any[[] for x in 1:length(DMatrix)]
         caches = [[] for x in 1:length(DMatrix)]
 
@@ -37,7 +41,7 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Vector{Float64
             Ŷ[datum], caches[datum] = forward_propagate_model_weights(DMatrix[datum], params)
         end # for
 
-        set_description(iter, "Epoch $i 2/6 Calculating Costs")
+        set_description(iter, "Epoch $i 2/6 Calculating Costs") # I sorta modified this step...
 
         Threads.@threads for datum in iter
             costs[(i-1) * length(DMatrix) + datum] = calculate_cost(Ŷ[datum], Y[datum])

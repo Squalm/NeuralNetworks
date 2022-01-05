@@ -20,7 +20,7 @@ function back_propagate_model_weights(Ŷ, Y, master_cache)
     # go backward in the layers and compute the partial derivates of each component
     for l = reverse(0:L-2)
         current_cache = master_cache[l+1]
-        ∇[string("δW_", (l+1))], ∇[string("δb_", (l+1))], ∇[string("δA_", (l))] = linear_activation_backwards(∇[string("δA_", (l+1))], current_cache, activation_function="tanh")
+        ∇[string("δW_", (l+1))], ∇[string("δb_", (l+1))], ∇[string("δA_", (l))] = linear_activation_backwards(∇[string("δA_", (l+1))], current_cache, activation_function="swish")
     end # for
 
     return ∇
