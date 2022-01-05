@@ -22,21 +22,13 @@ function linear_forward_activate(A_prev, W, b; activation_function = "tanh")
 
     if activation_function == "sigmoid"
         A, activation_cache = sigmoid(Z)
-    end # if
-
-    if activation_function == "relu"
+    elseif activation_function == "relu"
         A, activation_cache = relu(Z)
-    end # if
-
-    if activation_function == "softmax"
+    elseif activation_function == "softmax"
         A, activation_cache = softmax(Z)
-    end # if
-
-    if activation_function == "tanh"
+    elseif activation_function == "tanh"
         A, activation_cache = tanhact(Z)
-    end # if
-
-    if activation_function == "swish"
+    elseif activation_function == "swish"
         A, activation_cache = swish(Z)
     end # if
 
