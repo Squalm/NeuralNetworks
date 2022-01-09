@@ -12,7 +12,7 @@ function calculate_cost(Ŷ, Y)
 
     # using hardcoded 29 as number of characters
     #cost = -sum(Y .* log2.(Ŷ_new) + ((1 + 2/29) .- Y) .* log2.((1 + 2/29) .- Ŷ_new)) /m
-    cost = -sum([ Y[i] == 1 ? log2(Ŷ_new[i]) : log2(abs(Ŷ_new[i] + 27/29)) for i in 1:length(Y)]) /m
+    cost = -sum([ Y[i] == 1 ? log2(abs(Ŷ_new[i])) : log2(abs(Ŷ_new[i] + 27/29)) for i in 1:length(Y)]) /m
     #cost = -log2(Ŷ_new[findmax(Y)[2]])
     return cost
 end # function

@@ -7,6 +7,7 @@ function update_model_weights(parameters, ∇, η)
     # update the parameters (weights and biases) for all the layers
     for l = 1:L
         parameters[string("W_", l)] = min.(max.(parameters[string("W_", l)] - η .* ∇[string("δW_", l)], -100), 100)
+        # try not editign biases, and get swish working
         parameters[string("b_", l)] = min.(max.(parameters[string("b_", l)] - η .* ∇[string("δb_", l)], -100), 100)
 
         # Debugging printlns

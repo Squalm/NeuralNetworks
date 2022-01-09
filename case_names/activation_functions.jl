@@ -36,7 +36,7 @@ Swish Activation function
 function swish(Z::Array{BigFloat})
     #Z₁ = sigmoid(Z).A
     #A = [Z[i] * Z₁[i] for i in 1:length(Z)]
-    A = Z * vec(sigmoid(Z).A)
+    A = Z .* sigmoid(Z).A
     return (A = A, Z = Z)
 end # function
 

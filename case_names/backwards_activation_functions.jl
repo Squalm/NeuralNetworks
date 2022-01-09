@@ -23,7 +23,7 @@ end # function
 Derivative of Tanh
 """
 function tanh_backwards(δA, activated_cache)
-    return [δA[i] * (1 - (tanh(activated_cache[i]))^2) for i in 1:length(δA)]
+    return δA[i] .* (1 .- (tanh(activated_cache[i])).^2)
 end # function
 
 """
@@ -38,5 +38,5 @@ Derivative of Swish
 """
 function swish_backwards(δA, activated_cache)
     # β = 1
-    return δA * swish(activated_cache).A + sigmoid(activated_cache).A * (1 .- swish(activated_cache).A)
+    return δA .* (swish(activated_cache).A .+ sigmoid(activated_cache).A .* (1 .- swish(activated_cache).A))
 end # function
