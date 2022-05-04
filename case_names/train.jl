@@ -8,7 +8,8 @@ include("backpropagation.jl")
 include("gradient_descent.jl")
 
 """
-Train the network using the desired architecture that best possible matches the training inputs (DMatrix) and their corresponding outputs(Y) over some number of iterations (epochs) and a learning rate (η).
+Train the network using the desired architecture by matching the training inputs (DMatrix) to their
+corresponding outputs (Y) over some number of iterations (epochs) and a learning rate (η).
 """
 function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Vector{Float64}}, Y::Vector{Vector{Float64}}, mapping::String; η = 0.001, epochs = 500, seed = 758907)
 
@@ -27,9 +28,6 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Vector{Float64
 
     # train
     for i = 1:epochs
-
-        # modify η each iteration
-        #η = η_first * abs(cos(i * pi / 50))
 
         Ŷ = Any[[] for x in 1:length(DMatrix)]
         caches = [[] for x in 1:length(DMatrix)]
@@ -84,36 +82,6 @@ function train_network(layer_dims::Vector{Int64}, DMatrix::Vector{Vector{Float64
         open("case_names/logs/$d PAR.csv", "w") do io
             CSV.write(io, DataFrame([collect(values(params))], :auto), header=collect(keys(params)))
         end # do
-
-        #==for datum in 1:length(DMatrix)
-            Ŷ, caches = forward_propagate_model_weights(DMatrix[datum], params)
-            cost = calculate_cost(Ŷ, Y[datum][1])
-            acc = assess_accuracy(Ŷ, Y[datum][1])
-            ∇ = back_propagate_model_weights(Ŷ, Y[datum][1], caches)
-            params = update_model_weights(params, ∇, η)
-
-            # update containers
-            push!(costs, cost)
-            push!(iters, i)
-            push!(confidence, acc)
-            push!(YvŶ[1], mapping[findmax(Y[datum][1])[2]])
-            push!(YvŶ[2], mapping[findmax(Ŷ)[2][1]])
-
-            if verbose
-                println("Datum: $datum, Cost: $cost, Confidence: $acc")
-            end # if
-
-            # LOGGING
-            if datum % 100 == 0 # only write every 100
-                open("case_names/logs/$d LOG.csv", "w") do io
-                    CSV.write(io, DataFrame([iters, costs, accuracy, [(YvŶ[1][x] == YvŶ[2][x]) for x in 1:length(YvŶ[1])], YvŶ[1], YvŶ[2]], :auto), header=["Iteration", "Cost", "Accuracy", "Correct", "Answer", "Guess"])
-                end # do
-                open("case_names/logs/$d PAR.csv", "w") do io
-                    CSV.write(io, DataFrame([collect(values(params))], :auto), header=collect(keys(params)))
-                end # do
-            end # if
-
-        end # for==#
 
     end # for
 
